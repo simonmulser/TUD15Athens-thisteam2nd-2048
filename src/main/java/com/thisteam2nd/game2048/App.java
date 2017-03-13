@@ -10,9 +10,10 @@ public class App
         frame.setTitle("this team second - 2048");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        frame.setSize(630,660);
         frame.add(new Game());
 
-        frame.setSize(340, 400);
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 }
