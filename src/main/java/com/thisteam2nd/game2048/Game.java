@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JPanel {
+	
+	private int[][] boardValues = new int[4][4];
 
     private static final Color BG_COLOR = new Color(0xC4F1BE);
 
     public Game(){
+        boardValues[0][2] = 2048;
         repaint();
     }
 
@@ -31,16 +34,18 @@ public class Game extends JPanel {
                 Rectangle rect = rectangles[i][j];
                 graphichs2D.fillRoundRect(rect.getX(), rect.getY(), rect.side, rect.side, rect.arc, rect.arc);
 
-                graphichs2D.setColor(new Color(0x3C4356));
-                String value = String.valueOf(0);
-                final FontMetrics fm = getFontMetrics(font);
-                final int stringWidth = fm.stringWidth(value);
-                final int stringHeight = -(int) fm.getLineMetrics(value, graphichs2D).getBaselineOffsets()[2];
-
-                graphichs2D.drawString(
-                        value,
-                        rect.getX() + (rect.side - stringWidth)/2,
-                        rect.getY() + rect.side - (rect.side - stringHeight)/2 - 2);
+                if(boardValues[i][j] != 0) {
+	                graphichs2D.setColor(new Color(0x3C4356));
+	                String value = String.valueOf(boardValues[i][j]);
+	                final FontMetrics fm = getFontMetrics(font);
+	                final int stringWidth = fm.stringWidth(value);
+	                final int stringHeight = -(int) fm.getLineMetrics(value, graphichs2D).getBaselineOffsets()[2];
+	
+	                graphichs2D.drawString(
+	                        value,
+	                        rect.getX() + (rect.side - stringWidth)/2,
+	                        rect.getY() + rect.side - (rect.side - stringHeight)/2 - 2);
+                }
             }
         }
     }
