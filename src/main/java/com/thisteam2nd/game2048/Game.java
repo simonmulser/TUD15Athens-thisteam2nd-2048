@@ -14,7 +14,8 @@ public class Game extends JPanel implements KeyListener {
     public Game(){
         setFocusable(true);
         addKeyListener(this);
-        boardValues[0][2] = 2048;
+        addRandomValue();
+        addRandomValue();
         repaint();
     }
 
@@ -72,5 +73,24 @@ public class Game extends JPanel implements KeyListener {
                 }
             }
         }
+    }
+
+    public void addRandomValue() {
+        int c, r;
+        int number;
+
+        do{
+            c = (int)(Math.random() * 4);
+            r = (int)(Math.random() * 4);
+        } while(boardValues[c][r] != 0);
+
+        if ((int)(Math.random() * 2) == 0) {
+            number = 2;
+        }
+        else {
+            number = 4;
+        }
+
+        boardValues[c][r] = number;
     }
 }
