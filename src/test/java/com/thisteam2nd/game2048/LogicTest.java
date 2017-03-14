@@ -45,6 +45,15 @@ class LogicTest {
     }
 
     @Test
+    public void testMoveLine5(){
+        Integer[] line = new Integer[]{8,8,2,2};
+
+        line = Logic.moveLine(line);
+
+        assertThat(line, is(new Integer[]{8,8,2,2}));
+    }
+
+    @Test
     public void testMergeLine1(){
         Integer[] line = new Integer[]{2,2,0,0};
 
