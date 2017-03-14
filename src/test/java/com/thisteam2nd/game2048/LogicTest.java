@@ -88,4 +88,34 @@ class LogicTest {
 
         assertThat(line, is(new Integer[]{4,4,4,0}));
     }
+
+    @Test
+    public void testIsGameOver1(){
+        Integer[][] board = new Integer[][]{{2,4,8,16},
+                                            {4,8,16,32},
+                                            {2,4,8,16},
+                                            {4,8,16,32}};
+
+        assertThat(Logic.isGameOver(board), is(true));
+    }
+
+    @Test
+    public void testIsGameOver2(){
+        Integer[][] board = new Integer[][]{{2,4,8,16},
+                                            {2,8,16,32},
+                                            {2,4,8,16},
+                                            {4,8,16,32}};
+
+        assertThat(Logic.isGameOver(board), is(false));
+    }
+
+    @Test
+    public void testIsGameOver3(){
+        Integer[][] board = new Integer[][]{{0,0,2,0},
+                                            {0,0,0,0},
+                                            {0,0,2,0},
+                                            {0,0,0,0}};
+
+        assertThat(Logic.isGameOver(board), is(false));
+    }
 }

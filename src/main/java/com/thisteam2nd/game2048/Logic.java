@@ -37,4 +37,8 @@ public class Logic {
         }
         return mergedLine.toArray(new Integer[4]);
     }
+
+    public static boolean isGameOver(Integer[][] board){
+        return true;
+    }
 }
