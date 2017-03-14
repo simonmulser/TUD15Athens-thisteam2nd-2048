@@ -8,7 +8,9 @@ public class GameBoardBuilder {
             rectangles[i] = new Rectangle[4];
 
             for (int j = 0; j < 4; j++) {
-                rectangles[i][j] = new Rectangle(i * 150 + i * 10 + 10, j * 150 + j * 10 + 10);
+                rectangles[i][j] = new Rectangle(
+                        i * Rectangle.side + i * Rectangle.spacing + Rectangle.spacing,
+                        j * Rectangle.side + j * Rectangle.spacing + Rectangle.spacing);
             }
         }
         return rectangles;

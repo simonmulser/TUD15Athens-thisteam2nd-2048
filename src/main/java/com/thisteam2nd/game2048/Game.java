@@ -32,7 +32,7 @@ public class Game extends JPanel {
             for(int j = 0; j < rectangles[i].length; j++){
                 graphichs2D.setColor(new Color(0x5C5B7F));
                 Rectangle rect = rectangles[i][j];
-                graphichs2D.fillRoundRect(rect.getX(), rect.getY(), rect.side, rect.side, rect.arc, rect.arc);
+                graphichs2D.fillRoundRect(rect.getX(), rect.getY(), Rectangle.side, Rectangle.side, Rectangle.arc, Rectangle.arc);
 
                 if(boardValues[i][j] != 0) {
 	                graphichs2D.setColor(new Color(0x3C4356));
@@ -43,8 +43,8 @@ public class Game extends JPanel {
 	
 	                graphichs2D.drawString(
 	                        value,
-	                        rect.getX() + (rect.side - stringWidth)/2,
-	                        rect.getY() + rect.side - (rect.side - stringHeight)/2 - 2);
+	                        rect.getX() + (Rectangle.side - stringWidth)/2,
+	                        rect.getY() + Rectangle.side - (Rectangle.side - stringHeight)/2 - 2);
                 }
             }
         }
