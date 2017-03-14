@@ -7,7 +7,12 @@ import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements KeyListener {
 	
-	private Integer[][] boardValues = new Integer[4][4];
+	private Integer[][] boardValues = new Integer[][]{
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+	};
 
     private static final Color BG_COLOR = new Color(0xC4F1BE);
 
@@ -22,20 +27,29 @@ public class Game extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent ev) {
         int keyCode =  ev.getKeyCode();
         if (keyCode == KeyEvent.VK_LEFT) {
-            for(int i = 0; i < 4; i++){
-                boardValues[i] = Logic.mergeLine(Logic.moveLine(boardValues[i]));
-            }
+            magic();
         } else if (keyCode == KeyEvent.VK_RIGHT) {
-            boardValues[0][3] = boardValues[0][3] + 10;
-            // Move right, update boardValues
+            boardValues = Transformation.reverse(boardValues);
+            magic();
+            boardValues = Transformation.reverse(boardValues);
         } else if (keyCode == KeyEvent.VK_UP) {
-            //  Move up, update boardValues
-            boardValues[1][3] = boardValues[1][3] + 10;
+            boardValues = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(boardValues)));
+            magic();
+            boardValues = Transformation.rotate90(boardValues);
         } else if (keyCode == KeyEvent.VK_DOWN) {
-            // Move down, update boardValues
-            boardValues[2][3] = boardValues[2][3] + 10;
+            boardValues = Transformation.rotate90(boardValues);
+            magic();
+            boardValues = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(boardValues)));
         }
+
+        addRandomValue();
         repaint();
+    }
+
+    private void magic() {
+        for(int i = 0; i < 4; i++){
+            boardValues[i] = Logic.mergeLine(Logic.moveLine(boardValues[i]));
+        }
     }
 
     public void keyReleased(KeyEvent ev) {}
@@ -78,13 +92,13 @@ public class Game extends JPanel implements KeyListener {
     }
 
     public void addRandomValue() {
-        int c, r;
+        int column, row;
         int number;
 
         do{
-            c = (int)(Math.random() * 4);
-            r = (int)(Math.random() * 4);
-        } while(boardValues[c][r] != 0);
+            column = (int)(Math.random() * 4);
+            row = (int)(Math.random() * 4);
+        } while(boardValues[column][row] != 0);
 
         if ((int)(Math.random() * 2) == 0) {
             number = 2;
@@ -93,6 +107,6 @@ public class Game extends JPanel implements KeyListener {
             number = 4;
         }
 
-        boardValues[c][r] = number;
+        boardValues[column][row] = number;
     }
 }

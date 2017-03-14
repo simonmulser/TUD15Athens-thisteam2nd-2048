@@ -21,4 +21,8 @@ public class Transformation {
         }
         return values;
     }
+
+    public static Integer[][] rotate90(Integer[][] values){
+        return reverse(transpose(values));
+    }
 }
