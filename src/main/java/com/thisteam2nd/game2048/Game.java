@@ -15,6 +15,8 @@ public class Game extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
         boardValues[0][2] = 2048;
+        randGen();
+        randGen();
         repaint();
     }
 
