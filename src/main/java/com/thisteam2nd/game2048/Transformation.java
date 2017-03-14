@@ -21,8 +21,4 @@ public class Transformation {
         }
         return values;
     }
-
-    public static Integer[][] rotateMinus90Degree(Integer[][] values){
-        return null;
-    }
 }
