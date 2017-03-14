@@ -6,11 +6,14 @@ public class App
 {
     public static void main( String[] args )
     {
-        JFrame game = new JFrame();
-        game.setTitle("this team second - 2048");
-        game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame();
+        frame.setTitle("this team second - 2048");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        game.setSize(340, 400);
-        game.setVisible(true);
+        frame.setSize(655,685);
+        frame.add(new Game());
+
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 }
