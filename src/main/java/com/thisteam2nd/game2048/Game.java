@@ -2,17 +2,41 @@ package com.thisteam2nd.game2048;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class Game extends JPanel {
+public class Game extends JPanel implements KeyListener {
 	
 	private int[][] boardValues = new int[4][4];
 
     private static final Color BG_COLOR = new Color(0xC4F1BE);
 
     public Game(){
+        setFocusable(true);
+        addKeyListener(this);
         boardValues[0][2] = 2048;
         repaint();
     }
+
+    public void keyPressed(KeyEvent ev) {
+        int keyCode =  ev.getKeyCode();
+        if (keyCode == KeyEvent.VK_LEFT) {
+            boardValues[0][2] = boardValues[0][2] + 10;
+        } else if (keyCode == KeyEvent.VK_RIGHT) {
+            boardValues[0][3] = boardValues[0][3] + 10;
+            // Move right, update boardValues
+        } else if (keyCode == KeyEvent.VK_UP) {
+            //  Move up, update boardValues
+            boardValues[1][3] = boardValues[1][3] + 10;
+        } else if (keyCode == KeyEvent.VK_DOWN) {
+            // Move down, update boardValues
+            boardValues[2][3] = boardValues[2][3] + 10;
+        }
+        repaint();
+    }
+
+    public void keyReleased(KeyEvent ev) {}
+    public void keyTyped(KeyEvent ev) {}
 
     @Override
     public void paint(Graphics graphics) {
