@@ -37,4 +37,26 @@ public class Logic {
         }
         return mergedLine.toArray(new Integer[4]);
     }
+
+    public static boolean isGameOver(Integer[][] board) {
+        int width = board.length;
+        int height = board[0].length;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (board[i][j] == 0) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 0; i < width-1; i++) {
+            for (int j = 0; j < height-1; j++) {
+                if (board[i][j] == board[i+1][j] || board[i][j] == board[i][j+1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
