@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements KeyListener {
 	
-	private int[][] boardValues = new int[4][4];
+	private Integer[][] boardValues = new Integer[4][4];
 
     private static final Color BG_COLOR = new Color(0xC4F1BE);
 
@@ -22,7 +22,9 @@ public class Game extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent ev) {
         int keyCode =  ev.getKeyCode();
         if (keyCode == KeyEvent.VK_LEFT) {
-            boardValues[0][2] = boardValues[0][2] + 10;
+            for(int i = 0; i < 4; i++){
+                boardValues[i] = Logic.mergeLine(Logic.moveLine(boardValues[i]));
+            }
         } else if (keyCode == KeyEvent.VK_RIGHT) {
             boardValues[0][3] = boardValues[0][3] + 10;
             // Move right, update boardValues
