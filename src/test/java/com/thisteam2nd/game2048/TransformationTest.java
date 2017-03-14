@@ -22,7 +22,6 @@ class TransformationTest {
                 {0, 2, 0},
                 {0, 0, 4}
         }));
-
     }
 
     @Test
@@ -40,7 +39,6 @@ class TransformationTest {
                 {0, 2, 2},
                 {0, 3, 4}
         }));
-
     }
 
     @Test
@@ -58,7 +56,41 @@ class TransformationTest {
                 {0, 2, 0},
                 {0, 0, 4}
         }));
-
     }
+
+    @Test
+    public void testReverse1(){
+        Integer[][] matrix = new Integer[][]{
+                {2, 0, 0},
+                {0, 2, 0},
+                {0, 0, 4}
+        };
+
+        matrix = Transformation.reverse(matrix);
+
+        assertThat(matrix, is(new Integer[][]{
+                {0, 0, 2},
+                {0, 2, 0},
+                {4, 0, 0}
+        }));
+    }
+
+    @Test
+    public void testReverse2(){
+        Integer[][] matrix = new Integer[][]{
+                {2, 1, 5},
+                {0, 2, 5},
+                {0, 0, 5}
+        };
+
+        matrix = Transformation.reverse(matrix);
+
+        assertThat(matrix, is(new Integer[][]{
+                {5, 1, 2},
+                {5, 2, 0},
+                {5, 0, 0}
+        }));
+    }
+
 
 }

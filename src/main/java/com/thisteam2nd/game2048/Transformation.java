@@ -1,5 +1,7 @@
 package com.thisteam2nd.game2048;
 
+import org.apache.commons.lang.ArrayUtils;
+
 public class Transformation {
 
     public static Integer[][] transpose(Integer[][] values){
@@ -13,8 +15,11 @@ public class Transformation {
         return values;
     }
 
-    public static Integer[][] rotate90Degree(Integer[][] values){
-        return null;
+    public static Integer[][] reverse(Integer[][] values){
+        for (int i = 0; i < values.length; i++){
+            ArrayUtils.reverse(values[i]);
+        }
+        return values;
     }
 
     public static Integer[][] rotateMinus90Degree(Integer[][] values){
