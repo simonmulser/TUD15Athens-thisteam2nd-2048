@@ -43,4 +43,40 @@ class LogicTest {
 
         assertThat(line, is(new Integer[]{2,2,0,0}));
     }
+
+    @Test
+    public void testMergeLine1(){
+        Integer[] line = new Integer[]{2,2,0,0};
+
+        line = Logic.mergeLine(line);
+
+        assertThat(line, is(new Integer[]{4,0,0,0}));
+    }
+
+    @Test
+    public void testMergeLine2(){
+        Integer[] line = new Integer[]{512,512,2,0};
+
+        line = Logic.mergeLine(line);
+
+        assertThat(line, is(new Integer[]{1024,2,0,0}));
+    }
+
+    @Test
+    public void testMergeLine3(){
+        Integer[] line = new Integer[]{4,4,4,4};
+
+        line = Logic.mergeLine(line);
+
+        assertThat(line, is(new Integer[]{8,8,0,0}));
+    }
+
+    @Test
+    public void testMergeLine4(){
+        Integer[] line = new Integer[]{4,2,2,4};
+
+        line = Logic.mergeLine(line);
+
+        assertThat(line, is(new Integer[]{4,4,4,0}));
+    }
 }
