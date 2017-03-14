@@ -75,9 +75,9 @@ public class Game extends JPanel implements KeyListener {
                 Rectangle rect = rectangles[i][j];
                 graphichs2D.fillRoundRect(rect.getX(), rect.getY(), Rectangle.side, Rectangle.side, Rectangle.arc, Rectangle.arc);
 
-                if(boardValues[i][j] != 0) {
+                if(boardValues[j][i] != 0) {
 	                graphichs2D.setColor(new Color(0x3C4356));
-	                String value = String.valueOf(boardValues[i][j]);
+	                String value = String.valueOf(boardValues[j][i]);
 	                final FontMetrics fm = getFontMetrics(font);
 	                final int stringWidth = fm.stringWidth(value);
 	                final int stringHeight = -(int) fm.getLineMetrics(value, graphichs2D).getBaselineOffsets()[2];
