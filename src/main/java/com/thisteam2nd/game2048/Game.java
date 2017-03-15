@@ -59,12 +59,16 @@ public class Game implements KeyListener{
     public void keyPressed(KeyEvent ev) {
 	Command cmd = map.get(ev.getKeyCode());
 
-    Integer[][] tempValues = deepCopyValues();
-	cmd.execute();
-
-	if (!boardsAreEqual(values, tempValues)) {
-        addRandomValue();
-    }
+	if(cmd != null){
+        Integer[][] tempValues = deepCopyValues();
+		cmd.execute();
+        if (!boardsAreEqual(values, tempValues)) {
+            addRandomValue();
+        }
+		board.repaint();
+	} else {
+		System.out.println("no cmd found for key");
+	}
 	board.repaint();
     }
 
