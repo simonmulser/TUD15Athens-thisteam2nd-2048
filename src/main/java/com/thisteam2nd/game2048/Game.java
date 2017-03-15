@@ -1,7 +1,10 @@
 package com.thisteam2nd.game2048;
 
+import com.thisteam2nd.game2048.command.*;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -12,6 +15,8 @@ public class Game implements KeyListener{
 
     private JFrame frame;
     private GameBoard board;
+
+    private HashMap<Integer, Command> map = new HashMap<Integer, Command>();
 
     private Integer[][] values = new Integer[][]{
 	{0, 0, 0, 0},
@@ -25,6 +30,11 @@ public class Game implements KeyListener{
 	board = new GameBoard();
 	frame.add(board);
 	board.addKeyListener(this);
+
+	map.put(KeyEvent.VK_LEFT, new LeftCommand());
+    map.put(KeyEvent.VK_RIGHT, new RightCommand());
+    map.put(KeyEvent.VK_DOWN, new DownCommand());
+    map.put(KeyEvent.VK_UP, new UpCommand());
 
 	frame.setTitle("this team second - 2048");
 	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -47,30 +57,12 @@ public class Game implements KeyListener{
     }
 
     public void keyPressed(KeyEvent ev) {
-	int keyCode =  ev.getKeyCode();
-	if (keyCode == KeyEvent.VK_LEFT) {
-	    moveMerge();
-	} else if (keyCode == KeyEvent.VK_RIGHT) {
-	    values = Transformation.reverse(values);
-	    moveMerge();
-	    values = Transformation.reverse(values);
-	} else if (keyCode == KeyEvent.VK_UP) {
-	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
-	    moveMerge();
-	    values = Transformation.rotate90(values);
-	} else if (keyCode == KeyEvent.VK_DOWN) {
-	    values = Transformation.rotate90(values);
-	    moveMerge();
-	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
-	}
+	Command cmd = map.get(ev.getKeyCode());
+
+	cmd.execute();
+
 	addRandomValue();
 	board.repaint();
-    }
-
-    private void moveMerge() {
-	for(int i = 0; i < 4; i++){
-	    values[i] = Logic.mergeLine(Logic.moveLine(values[i]));
-	}
     }
 
     public void addRandomValue() {
@@ -95,6 +87,10 @@ public class Game implements KeyListener{
     public Integer[][] getValues() {
 	return values;
     }
+
+    public void setValues(Integer[][] values) {
+    	this.values = values;
+	}
 
     public void keyReleased(KeyEvent ev) {}
     public void keyTyped(KeyEvent ev) {}

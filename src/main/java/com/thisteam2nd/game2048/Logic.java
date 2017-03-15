@@ -5,6 +5,13 @@ import java.util.LinkedList;
 
 public class Logic {
 
+    public static Integer[][] moveMerge(Integer[][] values) {
+        for(int i = 0; i < 4; i++){
+            values[i] = mergeLine(Logic.moveLine(values[i]));
+        }
+        return values;
+    }
+
     public static Integer[] moveLine(Integer[] line) {
         LinkedList<Integer> movedLine = new LinkedList<Integer>();
         for (int i = 0; i < line.length; i++) {
