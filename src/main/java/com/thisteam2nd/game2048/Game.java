@@ -1,112 +1,101 @@
 package com.thisteam2nd.game2048;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Game extends JPanel implements KeyListener {
-	
-	private Integer[][] boardValues = new Integer[][]{
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-	};
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
-    private static final Color BG_COLOR = new Color(0xC4F1BE);
+public class Game implements KeyListener{
 
-    public Game(){
-        setFocusable(true);
-        addKeyListener(this);
-        addRandomValue();
-        addRandomValue();
-        repaint();
+    private volatile static Game instance;
+
+    private JFrame frame;
+    private GameBoard board;
+
+    private Integer[][] values = new Integer[][]{
+	{0, 0, 0, 0},
+	{0, 0, 0, 0},
+	{0, 0, 0, 0},
+	{0, 0, 0, 0}
+    };
+
+    private Game() {
+	frame = new JFrame();
+	board = new GameBoard();
+	frame.add(board);
+	board.addKeyListener(this);
+
+	frame.setTitle("this team second - 2048");
+	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+	frame.setResizable(false);
+	frame.setSize(655,685);
+	addRandomValue();
+	addRandomValue();
+    }
+
+    public static Game getInstance() {
+	if (instance == null) {
+	    synchronized (Game.class) {
+		if (instance == null) {
+		    instance = new Game();
+		}
+	    }
+	}
+	return instance;
     }
 
     public void keyPressed(KeyEvent ev) {
-        int keyCode =  ev.getKeyCode();
-        if (keyCode == KeyEvent.VK_LEFT) {
-            magic();
-        } else if (keyCode == KeyEvent.VK_RIGHT) {
-            boardValues = Transformation.reverse(boardValues);
-            magic();
-            boardValues = Transformation.reverse(boardValues);
-        } else if (keyCode == KeyEvent.VK_UP) {
-            boardValues = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(boardValues)));
-            magic();
-            boardValues = Transformation.rotate90(boardValues);
-        } else if (keyCode == KeyEvent.VK_DOWN) {
-            boardValues = Transformation.rotate90(boardValues);
-            magic();
-            boardValues = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(boardValues)));
-        }
-
-        addRandomValue();
-        repaint();
+	int keyCode =  ev.getKeyCode();
+	if (keyCode == KeyEvent.VK_LEFT) {
+	    moveMerge();
+	} else if (keyCode == KeyEvent.VK_RIGHT) {
+	    values = Transformation.reverse(values);
+	    moveMerge();
+	    values = Transformation.reverse(values);
+	} else if (keyCode == KeyEvent.VK_UP) {
+	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
+	    moveMerge();
+	    values = Transformation.rotate90(values);
+	} else if (keyCode == KeyEvent.VK_DOWN) {
+	    values = Transformation.rotate90(values);
+	    moveMerge();
+	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
+	}
+	addRandomValue();
+	board.repaint();
     }
 
-    private void magic() {
-        for(int i = 0; i < 4; i++){
-            boardValues[i] = Logic.mergeLine(Logic.moveLine(boardValues[i]));
-        }
+    private void moveMerge() {
+	for(int i = 0; i < 4; i++){
+	    values[i] = Logic.mergeLine(Logic.moveLine(values[i]));
+	}
+    }
+
+    public void addRandomValue() {
+	int column, row;
+	int number;
+
+	do{
+	    column = (int)(Math.random() * 4);
+	    row = (int)(Math.random() * 4);
+	} while(values[column][row] != 0);
+
+	if ((int)(Math.random() * 2) == 0) {
+	    number = 2;
+	}
+	else {
+	    number = 4;
+	}
+
+	values[column][row] = number;
+    }
+
+    public Integer[][] getValues() {
+	return values;
     }
 
     public void keyReleased(KeyEvent ev) {}
     public void keyTyped(KeyEvent ev) {}
-
-    @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
-        graphics.setColor(BG_COLOR);
-        graphics.fillRect(0,0, this.getSize().width, this.getSize().height);
-        Graphics2D graphichs2D = (Graphics2D) graphics;
-
-        graphichs2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphichs2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
-
-        final Font font = new Font("Helvetica", Font.BOLD, 36);
-        graphichs2D.setFont(font);
-
-        Rectangle[][] rectangles = GameBoardBuilder.create();
-        for(int i = 0; i < rectangles.length; i++){
-            for(int j = 0; j < rectangles[i].length; j++){
-                graphichs2D.setColor(new Color(0x5C5B7F));
-                Rectangle rect = rectangles[i][j];
-                graphichs2D.fillRoundRect(rect.getX(), rect.getY(), Rectangle.side, Rectangle.side, Rectangle.arc, Rectangle.arc);
-
-                if(boardValues[j][i] != 0) {
-	                graphichs2D.setColor(new Color(0x3C4356));
-	                String value = String.valueOf(boardValues[j][i]);
-	                final FontMetrics fm = getFontMetrics(font);
-	                final int stringWidth = fm.stringWidth(value);
-	                final int stringHeight = -(int) fm.getLineMetrics(value, graphichs2D).getBaselineOffsets()[2];
-	
-	                graphichs2D.drawString(
-	                        value,
-	                        rect.getX() + (Rectangle.side - stringWidth)/2,
-	                        rect.getY() + Rectangle.side - (Rectangle.side - stringHeight)/2 - 2);
-                }
-            }
-        }
-    }
-
-    public void addRandomValue() {
-        int column, row;
-        int number;
-
-        do{
-            column = (int)(Math.random() * 4);
-            row = (int)(Math.random() * 4);
-        } while(boardValues[column][row] != 0);
-
-        if ((int)(Math.random() * 2) == 0) {
-            number = 2;
-        }
-        else {
-            number = 4;
-        }
-
-        boardValues[column][row] = number;
-    }
 }
