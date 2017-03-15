@@ -49,25 +49,25 @@ public class Game implements KeyListener{
     public void keyPressed(KeyEvent ev) {
 	int keyCode =  ev.getKeyCode();
 	if (keyCode == KeyEvent.VK_LEFT) {
-	    magic();
+	    moveMerge();
 	} else if (keyCode == KeyEvent.VK_RIGHT) {
 	    values = Transformation.reverse(values);
-	    magic();
+	    moveMerge();
 	    values = Transformation.reverse(values);
 	} else if (keyCode == KeyEvent.VK_UP) {
 	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
-	    magic();
+	    moveMerge();
 	    values = Transformation.rotate90(values);
 	} else if (keyCode == KeyEvent.VK_DOWN) {
 	    values = Transformation.rotate90(values);
-	    magic();
+	    moveMerge();
 	    values = Transformation.rotate90(Transformation.rotate90(Transformation.rotate90(values)));
 	}
 	addRandomValue();
 	board.repaint();
     }
 
-    private void magic() {
+    private void moveMerge() {
 	for(int i = 0; i < 4; i++){
 	    values[i] = Logic.mergeLine(Logic.moveLine(values[i]));
 	}
