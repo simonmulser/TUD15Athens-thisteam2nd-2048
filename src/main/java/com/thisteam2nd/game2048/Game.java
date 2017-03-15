@@ -18,62 +18,59 @@ public class Game implements KeyListener{
 
     private HashMap<Integer, Command> map = new HashMap<Integer, Command>();
 
-    private Integer[][] values = new Integer[][]{
-	{0, 0, 0, 0},
-	{0, 0, 0, 0},
-	{0, 0, 0, 0},
-	{0, 0, 0, 0}
-    };
+    private Integer[][] values = new Integer[][]{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
     private Game() {
-	frame = new JFrame();
-	board = new GameBoard();
-	frame.add(board);
-	board.addKeyListener(this);
+    	frame = new JFrame();
+    	board = new GameBoard();
+    	frame.add(board);
+    	board.addKeyListener(this);
 
-	map.put(KeyEvent.VK_LEFT, new LeftCommand());
-    map.put(KeyEvent.VK_RIGHT, new RightCommand());
-    map.put(KeyEvent.VK_DOWN, new DownCommand());
-    map.put(KeyEvent.VK_UP, new UpCommand());
+    	map.put(KeyEvent.VK_LEFT, new LeftCommand());
+    	map.put(KeyEvent.VK_RIGHT, new RightCommand());
+    	map.put(KeyEvent.VK_DOWN, new DownCommand());
+    	map.put(KeyEvent.VK_UP, new UpCommand());
 
-	frame.setTitle("this team second - 2048");
-	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	frame.setVisible(true);
-	frame.setResizable(false);
-	frame.setSize(655,685);
-	addRandomValue();
-	addRandomValue();
+    	frame.setTitle("this team second - 2048");
+    	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    	frame.setVisible(true);
+    	frame.setResizable(false);
+    	frame.setSize(655,685);
+    	
+    	addRandomValue();
+    	addRandomValue();
     }
 
     public static Game getInstance() {
-	if (instance == null) {
-	    synchronized (Game.class) {
-		if (instance == null) {
-		    instance = new Game();
-		}
-	    }
-	}
-	return instance;
+    	if(instance == null) {
+    		synchronized (Game.class) {
+    			if(instance == null) {
+    				instance = new Game();
+    			}
+    		}
+    	}
+	
+    	return instance;
     }
 
     public void keyPressed(KeyEvent ev) {
-	Command cmd = map.get(ev.getKeyCode());
+    	Command cmd = map.get(ev.getKeyCode());
 
-	if(cmd != null){
-        Integer[][] tempValues = deepCopyValues();
-		cmd.execute();
-        if (!boardsAreEqual(values, tempValues)) {
-            addRandomValue();
-        }
-		board.repaint();
-	} else {
-		System.out.println("no cmd found for key");
-	}
-	board.repaint();
+    	if(cmd != null) {
+    		Integer[][] tempValues = deepCopyValues();
+    		cmd.execute();
+    		if(!boardsAreEqual(values, tempValues)) {
+    			addRandomValue();
+    		}
+    		board.repaint();
+    	} else {
+    		System.out.println("no cmd found for key");
+		}
+    	board.repaint();
     }
 
     public Integer[][] getValues() {
-	return values;
+    	return values;
     }
 
     public void setValues(Integer[][] values) {
@@ -84,18 +81,16 @@ public class Game implements KeyListener{
     public void keyTyped(KeyEvent ev) {}
 
     private void addRandomValue() {
-        int column, row;
-        int number;
+        int column, row, number;
 
         do{
             column = (int)(Math.random() * 4);
             row = (int)(Math.random() * 4);
         } while(values[column][row] != 0);
 
-        if ((int)(Math.random() * 2) == 0) {
+        if((int)(Math.random() * 2) == 0) {
             number = 2;
-        }
-        else {
+        } else {
             number = 4;
         }
 
@@ -105,9 +100,10 @@ public class Game implements KeyListener{
     private Integer[][] deepCopyValues() {
         Integer[][] copyValues = new Integer[values.length][];
         for (int i=0; i < values.length; i++) {
-            copyValues[i] = new Integer[values[i].length];
+        	copyValues[i] = new Integer[values[i].length];
             System.arraycopy(values[i], 0, copyValues[i], 0, values[i].length);
         }
+        
         return copyValues;
     }
 
@@ -119,6 +115,7 @@ public class Game implements KeyListener{
                 }
             }
         }
+        
         return true;
     }
 }
