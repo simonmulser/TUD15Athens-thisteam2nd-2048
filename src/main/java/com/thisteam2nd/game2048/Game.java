@@ -60,32 +60,16 @@ public class Game implements KeyListener{
 	Command cmd = map.get(ev.getKeyCode());
 
 	if(cmd != null){
+        Integer[][] tempValues = deepCopyValues();
 		cmd.execute();
-
-		addRandomValue();
+        if (!boardsAreEqual(values, tempValues)) {
+            addRandomValue();
+        }
 		board.repaint();
 	} else {
 		System.out.println("no cmd found for key");
 	}
-    }
-
-    public void addRandomValue() {
-	int column, row;
-	int number;
-
-	do{
-	    column = (int)(Math.random() * 4);
-	    row = (int)(Math.random() * 4);
-	} while(values[column][row] != 0);
-
-	if ((int)(Math.random() * 2) == 0) {
-	    number = 2;
-	}
-	else {
-	    number = 4;
-	}
-
-	values[column][row] = number;
+	board.repaint();
     }
 
     public Integer[][] getValues() {
@@ -98,4 +82,43 @@ public class Game implements KeyListener{
 
     public void keyReleased(KeyEvent ev) {}
     public void keyTyped(KeyEvent ev) {}
+
+    private void addRandomValue() {
+        int column, row;
+        int number;
+
+        do{
+            column = (int)(Math.random() * 4);
+            row = (int)(Math.random() * 4);
+        } while(values[column][row] != 0);
+
+        if ((int)(Math.random() * 2) == 0) {
+            number = 2;
+        }
+        else {
+            number = 4;
+        }
+
+        values[column][row] = number;
+    }
+
+    private Integer[][] deepCopyValues() {
+        Integer[][] copyValues = new Integer[values.length][];
+        for (int i=0; i < values.length; i++) {
+            copyValues[i] = new Integer[values[i].length];
+            System.arraycopy(values[i], 0, copyValues[i], 0, values[i].length);
+        }
+        return copyValues;
+    }
+
+    private boolean boardsAreEqual(Integer[][] board1, Integer[][] board2) {
+        for (int i=0; i < board1.length; i++) {
+            for (int j=0; j <board1[0].length; j++) {
+                if (!board1[i][j].equals(board2[i][j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
