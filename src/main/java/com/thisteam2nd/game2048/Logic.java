@@ -1,25 +1,25 @@
 package com.thisteam2nd.game2048;
 
-
 import java.util.LinkedList;
 
 public class Logic {
 
     public static Integer[][] moveMerge(Integer[][] values) {
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 4; i++) {
             values[i] = mergeLine(Logic.moveLine(values[i]));
         }
+        
         return values;
     }
 
     public static Integer[] moveLine(Integer[] line) {
         LinkedList<Integer> movedLine = new LinkedList<Integer>();
-        for (int i = 0; i < line.length; i++) {
-            if (line[i] > 0) {
+        for(int i = 0; i < line.length; i++) {
+            if(line[i] > 0) {
                 movedLine.add(line[i]);
             }
         }
-        while (movedLine.size() < 4) {
+        while(movedLine.size() < 4) {
             movedLine.add(0);
         }
 
@@ -39,9 +39,10 @@ public class Logic {
             i++;
         }
 
-        while (mergedLine.size() < 4) {
+        while(mergedLine.size() < 4) {
             mergedLine.add(0);
         }
+        
         return mergedLine.toArray(new Integer[4]);
     }
 
@@ -49,21 +50,22 @@ public class Logic {
         int width = board.length;
         int height = board[0].length;
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (board[i][j] == 0) {
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                if(board[i][j] == 0) {
                     return false;
                 }
             }
         }
 
-        for (int i = 0; i < width-1; i++) {
-            for (int j = 0; j < height-1; j++) {
-                if (board[i][j] == board[i+1][j] || board[i][j] == board[i][j+1]) {
+        for(int i = 0; i < width-1; i++) {
+            for(int j = 0; j < height-1; j++) {
+                if(board[i][j] == board[i+1][j] || board[i][j] == board[i][j+1]) {
                     return false;
                 }
             }
         }
+        
         return true;
     }
 }
