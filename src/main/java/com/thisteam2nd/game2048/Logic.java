@@ -32,6 +32,7 @@ public class Logic {
         while(i <= 3){
             if(i < 3 && line[i].equals(line[i + 1])){
                 mergedLine.add(line[i] * 2);
+                Game.getInstance().updateScore(line[i]*2);
                 i++;
             } else {
                 mergedLine.add(line[i]);
