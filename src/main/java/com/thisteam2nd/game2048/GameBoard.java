@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
-public class GameBoard extends JPanel {
+public class GameBoard extends JPanel implements GameObserver{
 
 	private static final Color BG_COLOR = new Color(0xBBADA0);
 
@@ -49,6 +49,11 @@ public class GameBoard extends JPanel {
 				}
 			}
 		}
+		
+		graphichs2D.setColor(new Color(0x3C4356));
+		String value = "Your score is " + String.valueOf(Game.getInstance().getScore());
+
+		graphichs2D.drawString(value,20,690);
 	}
 
 	public Color getColor(int i, int j) {
@@ -69,5 +74,9 @@ public class GameBoard extends JPanel {
 		}
 
 		return new Color(0xcdc1b4);
+	}
+
+	public void update() {
+	    repaint();
 	}
 }

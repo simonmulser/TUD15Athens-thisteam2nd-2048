@@ -4,27 +4,35 @@ import com.thisteam2nd.game2048.command.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-public class Game implements KeyListener{
+public class Game implements KeyListener, Observable{
 
     private volatile static Game instance;
 
     private JFrame frame;
-    private GameBoard board;
+    
+    private ArrayList<GameObserver> observers;
 
     private HashMap<Integer, Command> map = new HashMap<Integer, Command>();
 
     private Integer[][] values = new Integer[][]{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    private int score = 0;
 
     private Game() {
     	frame = new JFrame();
-    	board = new GameBoard();
+    	GameBoard board = new GameBoard();
     	frame.add(board);
     	board.addKeyListener(this);
+    	
+    	observers = new ArrayList<GameObserver>();
+
+    	observers.add(board);
+    	observers.add(new ConsoleScoreObserver());
 
     	map.put(KeyEvent.VK_LEFT, new LeftCommand());
     	map.put(KeyEvent.VK_RIGHT, new RightCommand());
@@ -35,7 +43,7 @@ public class Game implements KeyListener{
     	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     	frame.setVisible(true);
     	frame.setResizable(false);
-    	frame.setSize(655,685);
+    	frame.setSize(655,750);
     	
     	addRandomValue();
     	addRandomValue();
@@ -61,12 +69,12 @@ public class Game implements KeyListener{
     		cmd.execute();
     		if(!boardsAreEqual(values, tempValues)) {
     			addRandomValue();
+    		
+    			notifyObservers();
     		}
-    		board.repaint();
     	} else {
     		System.out.println("no cmd found for key");
-		}
-    	board.repaint();
+	}
     }
 
     public Integer[][] getValues() {
@@ -76,7 +84,15 @@ public class Game implements KeyListener{
     public void setValues(Integer[][] values) {
     	this.values = values;
 	}
-
+    
+    public int getScore() {
+	return score;
+    }
+    
+    public void updateScore(int points) {
+	score += points;
+    }
+    
     public void keyReleased(KeyEvent ev) {}
     public void keyTyped(KeyEvent ev) {}
 
@@ -117,5 +133,11 @@ public class Game implements KeyListener{
         }
         
         return true;
+    }
+    
+    public void notifyObservers() {
+	for (GameObserver gameObserver : observers) {
+	    gameObserver.update();
+	}
     }
 }
