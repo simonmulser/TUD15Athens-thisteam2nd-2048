@@ -22,7 +22,7 @@ public class TwitterObserver implements GameObserver {
                 TwitterFactory tf = new TwitterFactory(cb.build());
                 Twitter twitter = tf.getInstance();
                 int score = Game.getInstance().getScore();
-                twitter.updateStatus(TwitterCredentials.getMessage());
+                twitter.updateStatus(TwitterCredentials.getMessage(score));
             } catch (Exception e) {
                 System.out.println("Unable to publish tweet.");
                 System.out.println(e);
