@@ -1,12 +1,27 @@
 package com.thisteam2nd.game2048;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 class LogicTest {
+    
+    private Logic logic;
+    
+    @Mock
+    private Game game;
+    
+    @BeforeEach
+    public void beforeClass(){
+	MockitoAnnotations.initMocks(this);
+	logic = new Logic();
+	logic.setGame(game);
+    }
 
     @Test
     public void testMoveLine1(){
@@ -57,7 +72,7 @@ class LogicTest {
     public void testMergeLine1(){
         Integer[] line = new Integer[]{2,2,0,0};
 
-        line = Logic.mergeLine(line);
+        line = logic.mergeLine(line);
 
         assertThat(line, is(new Integer[]{4,0,0,0}));
     }
@@ -66,7 +81,7 @@ class LogicTest {
     public void testMergeLine2(){
         Integer[] line = new Integer[]{512,512,2,0};
 
-        line = Logic.mergeLine(line);
+        line = logic.mergeLine(line);
 
         assertThat(line, is(new Integer[]{1024,2,0,0}));
     }
@@ -75,7 +90,7 @@ class LogicTest {
     public void testMergeLine3(){
         Integer[] line = new Integer[]{4,4,4,4};
 
-        line = Logic.mergeLine(line);
+        line = logic.mergeLine(line);
 
         assertThat(line, is(new Integer[]{8,8,0,0}));
     }
@@ -84,7 +99,7 @@ class LogicTest {
     public void testMergeLine4(){
         Integer[] line = new Integer[]{4,2,2,4};
 
-        line = Logic.mergeLine(line);
+        line = logic.mergeLine(line);
 
         assertThat(line, is(new Integer[]{4,4,4,0}));
     }

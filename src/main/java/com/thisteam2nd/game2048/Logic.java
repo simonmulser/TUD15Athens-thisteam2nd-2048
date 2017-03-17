@@ -3,8 +3,10 @@ package com.thisteam2nd.game2048;
 import java.util.LinkedList;
 
 public class Logic {
+    
+    Game game;
 
-    public static Integer[][] moveMerge(Integer[][] values) {
+    public Integer[][] moveMerge(Integer[][] values) {
         for(int i = 0; i < 4; i++) {
             values[i] = mergeLine(Logic.moveLine(values[i]));
         }
@@ -26,13 +28,13 @@ public class Logic {
         return movedLine.toArray(new Integer[4]);
     }
 
-    public static Integer[] mergeLine(Integer[] line) {
+    public Integer[] mergeLine(Integer[] line) {
         LinkedList<Integer> mergedLine = new LinkedList<Integer>();
         int i = 0;
         while(i <= 3){
             if(i < 3 && line[i].equals(line[i + 1])){
                 mergedLine.add(line[i] * 2);
-                Game.getInstance().updateScore(line[i]*2);
+                game.updateScore(line[i]*2);
                 i++;
             } else {
                 mergedLine.add(line[i]);
@@ -68,5 +70,9 @@ public class Logic {
         }
         
         return true;
+    }
+    
+    public void setGame(Game g) {
+	game = g;
     }
 }
