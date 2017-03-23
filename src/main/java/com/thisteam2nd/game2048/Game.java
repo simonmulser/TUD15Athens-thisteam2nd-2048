@@ -33,6 +33,7 @@ public class Game implements KeyListener, Observable{
 
     	observers.add(board);
     	observers.add(new ConsoleScoreObserver());
+        observers.add(new TwitterObserver());
 
     	map.put(KeyEvent.VK_LEFT, new LeftCommand());
     	map.put(KeyEvent.VK_RIGHT, new RightCommand());
@@ -57,7 +58,6 @@ public class Game implements KeyListener, Observable{
     			}
     		}
     	}
-	
     	return instance;
     }
 
